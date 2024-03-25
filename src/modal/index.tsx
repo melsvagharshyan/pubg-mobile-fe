@@ -30,14 +30,17 @@ const ExchangeModal: React.FC<ModalProps> = ({
     setSocialSite("");
     setCongrates(false);
     reset();
+    setLoading(false);
     setIsOpenModal(false);
   };
 
   const formSubmit = handleSubmit(async (formData) => {
     try {
       setLoading(true);
-      await API.post("/api/information", formData);
+      await API.post("/api/information", { ...formData, socialSite });
       setLoading(false);
+      setSocialSite("");
+      reset();
       setCongrates(true);
     } catch (err) {}
   });
